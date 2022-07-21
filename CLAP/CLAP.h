@@ -1,13 +1,16 @@
-#pragma once
+#ifndef _CLAP
+#define _CLAP
 #include <functional>
 #include <string>
 #include <map>
 #include <vector>
 #include <variant>
 
+
 class CLAP {
 public:
 	CLAP(void);
+	virtual ~CLAP(void);
 
 	void add_arg(
 		const std::string& name,
@@ -42,8 +45,11 @@ private:
 		bool required = false;
 		unsigned bindings = 0;
 	};
+
 	std::map<std::string, Arg> arg_handlers;
 
+	void check_missing_or_duplicates(int argc, const char** argv);
 	void add_handler(const std::string& name, const Arg& arg);
 };
 
+#endif
