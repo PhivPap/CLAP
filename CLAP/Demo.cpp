@@ -3,15 +3,17 @@
 
 int main(int argc, const char** argv) {
 	std::string input_path = "none", output_path = "none";
+	int theta = 2;
 
 	CLAP clapper;
-	clapper.add_arg("--hello", []() { std::cout << "hello world!\n"; }, true);
-	clapper.add_bound_arg("--echo", [](const std::string& str) { std::cout << str << std::endl; });
-	clapper.add_multibound_arg("--io", [&](const std::vector<std::string>& bindings) { 
+	clapper.register_arg("--hello", []() { std::cout << "hello world!\n"; }, true);
+	clapper.register_bound_arg("--echo", [](const std::string& str) { std::cout << str << std::endl; });
+	clapper.register_bound_arg("--theta", [&](int64_t i) { theta = i; });
+	clapper.register_multibound_arg("--io", [&](const std::vector<std::string>& bindings) {
 		input_path = bindings[0];
 		output_path = bindings[1];
 	}, 2);
-	clapper.add_multibound_arg("--echo_next", [](const std::vector<std::string>& bindings) {
+	clapper.register_multibound_arg("--echo_next", [](const std::vector<std::string>& bindings) {
 		for (const auto& str : bindings)
 			std::cout << str << std::endl;
 	}, 0);
@@ -26,4 +28,5 @@ int main(int argc, const char** argv) {
 
 	std::cout << "input path: " << input_path << std::endl;
 	std::cout << "output path: " << output_path << std::endl;
+	std::cout << "theta: " << theta << std::endl;
 }
