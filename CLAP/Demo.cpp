@@ -18,6 +18,7 @@ void parse_main_args(int argc, const char** argv, std::string& in, std::string& 
 
 	// handler for flag associated with int64 
 	// ("CLAP::FunSingleInt" required for lambda type disambiguation)
+	// (Lambda captures theta by reference)
 	clapper.register_bound_arg("--theta", CLAP::FunSingleInt{ [&](int64_t i) { theta = static_cast<int>(i); } });
 
 	// handler for flag assosciated with double[f64]
@@ -27,6 +28,7 @@ void parse_main_args(int argc, const char** argv, std::string& in, std::string& 
 	} });
 
 	// handler for flag assosciated with with two strings
+	// (Lambda captures in & out by reference)
 	clapper.register_multibound_arg("--io", [&](std::vector<std::string>& bindings) {
 		in = bindings[0];
 		out = bindings[1];

@@ -83,10 +83,10 @@ void MultiDblHandler::multi_arg_caller(std::vector<std::string>& vec) const {
 			dbl_vec.push_back(std::stod(str));
 		}
 		catch (const std::invalid_argument&) {
-			throw "Impossible conversion of '" + str + "' to int64_t.";
+			throw "Impossible conversion of '" + str + "' to double.";
 		}
 		catch (const std::out_of_range&) {
-			throw "Impossible conversion of '" + str + "' to int64_t (out of range).";
+			throw "Impossible conversion of '" + str + "' to double (out of range).";
 		}
 	}
 	callback(dbl_vec);
