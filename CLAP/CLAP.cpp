@@ -1,31 +1,31 @@
 #include "CLAP.h"
 #include <iostream>
 
-Handler::Handler(bool required, unsigned bindings, HandlerType type) : required(required), bindings(bindings), type(type) {}
-Handler::~Handler() {}
-void Handler::void_arg_caller(void) const { abort(); }								// why am I here? 
-void Handler::single_arg_caller(std::string& str) const { abort(); }				// why am I here? 
-void Handler::multi_arg_caller(std::vector<std::string>& vec) const { abort(); }	// why am I here? 
+CLAP::Handler::Handler(bool required, unsigned bindings, HandlerType type) : required(required), bindings(bindings), type(type) {}
+CLAP::Handler::~Handler() {}
+void CLAP::Handler::void_arg_caller(void) const { abort(); }								// why am I here? 
+void CLAP::Handler::single_arg_caller(std::string& str) const { abort(); }				// why am I here? 
+void CLAP::Handler::multi_arg_caller(std::vector<std::string>& vec) const { abort(); }	// why am I here? 
 
-VoidHandler::VoidHandler(bool required, HandlerType type, const std::function<void(void)>& callback)
+CLAP::VoidHandler::VoidHandler(bool required, HandlerType type, const std::function<void(void)>& callback)
 	: Handler(required, 0, type), callback(callback) {}
-VoidHandler::~VoidHandler(void) {}
-void VoidHandler::void_arg_caller(void) const { callback(); }
+CLAP::VoidHandler::~VoidHandler(void) {}
+void CLAP::VoidHandler::void_arg_caller(void) const { callback(); }
 
-SingleStrHandler::SingleStrHandler(bool required, HandlerType type, const std::function<void(std::string&)>& callback)
+CLAP::SingleStrHandler::SingleStrHandler(bool required, HandlerType type, const std::function<void(std::string&)>& callback)
 	: Handler(required, 1, type), callback(callback) {}
-SingleStrHandler::~SingleStrHandler(void) {}
-void SingleStrHandler::single_arg_caller(std::string& str) const { callback(str); }
+CLAP::SingleStrHandler::~SingleStrHandler(void) {}
+void CLAP::SingleStrHandler::single_arg_caller(std::string& str) const { callback(str); }
 
-MultiStrHandler::MultiStrHandler(bool required, unsigned bindings, HandlerType type, const std::function<void(std::vector<std::string>&)>& callback)
+CLAP::MultiStrHandler::MultiStrHandler(bool required, unsigned bindings, HandlerType type, const std::function<void(std::vector<std::string>&)>& callback)
 	: Handler(required, bindings, type), callback(callback) {}
-MultiStrHandler::~MultiStrHandler(void) {}
-void MultiStrHandler::multi_arg_caller(std::vector<std::string>& vec) const { callback(vec); }
+CLAP::MultiStrHandler::~MultiStrHandler(void) {}
+void CLAP::MultiStrHandler::multi_arg_caller(std::vector<std::string>& vec) const { callback(vec); }
 
-SingleIntHandler::SingleIntHandler(bool required, HandlerType type, const std::function<void(int64_t)>& callback)
+CLAP::SingleIntHandler::SingleIntHandler(bool required, HandlerType type, const std::function<void(int64_t)>& callback)
 	: Handler(required, 1, type), callback(callback) {}
-SingleIntHandler::~SingleIntHandler(void) {}
-void SingleIntHandler::single_arg_caller(std::string& str) const {
+CLAP::SingleIntHandler::~SingleIntHandler(void) {}
+void CLAP::SingleIntHandler::single_arg_caller(std::string& str) const {
 	try {
 		callback(std::stoll(str));
 	}
@@ -37,10 +37,10 @@ void SingleIntHandler::single_arg_caller(std::string& str) const {
 	}
 }
 
-MultiIntHandler::MultiIntHandler(bool required, unsigned bindings, HandlerType type, const std::function<void(std::vector<int64_t>&)>& callback)
+CLAP::MultiIntHandler::MultiIntHandler(bool required, unsigned bindings, HandlerType type, const std::function<void(std::vector<int64_t>&)>& callback)
 	: Handler(required, bindings, type), callback(callback) {}
-MultiIntHandler::~MultiIntHandler(void) {}
-void MultiIntHandler::multi_arg_caller(std::vector<std::string>& vec) const {
+CLAP::MultiIntHandler::~MultiIntHandler(void) {}
+void CLAP::MultiIntHandler::multi_arg_caller(std::vector<std::string>& vec) const {
 	std::vector<int64_t> int_vec;
 	int_vec.reserve(vec.size());
 	for (const auto& str : vec) {
@@ -57,10 +57,10 @@ void MultiIntHandler::multi_arg_caller(std::vector<std::string>& vec) const {
 	callback(int_vec);
 }
 
-SingleDblHandler::SingleDblHandler(bool required, HandlerType type, const std::function<void(double)>& callback) 
+CLAP::SingleDblHandler::SingleDblHandler(bool required, HandlerType type, const std::function<void(double)>& callback)
 	: Handler(required, 1, type), callback(callback) {}
-SingleDblHandler::~SingleDblHandler(void) {}
-void SingleDblHandler::single_arg_caller(std::string& str) const {
+CLAP::SingleDblHandler::~SingleDblHandler(void) {}
+void CLAP::SingleDblHandler::single_arg_caller(std::string& str) const {
 	try {
 		callback(std::stod(str));
 	}
@@ -72,10 +72,10 @@ void SingleDblHandler::single_arg_caller(std::string& str) const {
 	}
 }
 
-MultiDblHandler::MultiDblHandler(bool required, unsigned bindings, HandlerType type, const std::function<void(std::vector<double>&)>& callback)
+CLAP::MultiDblHandler::MultiDblHandler(bool required, unsigned bindings, HandlerType type, const std::function<void(std::vector<double>&)>& callback)
 	: Handler(required, bindings, type), callback(callback) {}
-MultiDblHandler::~MultiDblHandler(void) {}
-void MultiDblHandler::multi_arg_caller(std::vector<std::string>& vec) const {
+CLAP::MultiDblHandler::~MultiDblHandler(void) {}
+void CLAP::MultiDblHandler::multi_arg_caller(std::vector<std::string>& vec) const {
 	std::vector<double> dbl_vec;
 	dbl_vec.reserve(vec.size());
 	for (const auto& str : vec) {
