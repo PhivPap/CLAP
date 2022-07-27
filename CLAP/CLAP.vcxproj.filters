@@ -26,5 +26,8 @@
     <ClInclude Include="CLAP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SingleHeaderVersion\CLAP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
